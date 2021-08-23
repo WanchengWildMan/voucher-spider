@@ -1,5 +1,6 @@
-CREATE TABLE IF NOT EXISTS  voucher (
+CREATE TABLE IF NOT EXISTS voucher (
   city varchar(255) NOT NULL,
+  province varchar(255),
   gdp19 double DEFAULT NULL,
   gdpStage19 double DEFAULT NULL,
   peo double DEFAULT NULL,

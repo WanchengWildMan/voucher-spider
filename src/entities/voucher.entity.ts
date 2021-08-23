@@ -3,6 +3,8 @@ import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 export class Voucher {
   @PrimaryColumn({ nullable: false, unique: true })
   city: string;
+  @Column("varchar",{nullable:true,unique:false})
+  province:string;
   @Column("double", { nullable: true })
   gdp19: number;
   @Column("double", { nullable: true })

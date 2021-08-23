@@ -4,7 +4,6 @@ from urllib.request import urlopen, quote
 import time
 import getGDP
 import getGDP_peo
-from typing_extensions import TypeAlias
 import requests
 from lxml import etree
 import pandas as pd
@@ -25,12 +24,8 @@ r = requests.get(url=url_index, headers=headers)
 r.encoding = r.apparent_encoding
 html_index = etree.HTML(r.text)
 
-# %%
-
 df = pd.DataFrame(columns=["url", "城市", "省份", "领取方式",
                            "发放时间", "发放金额", "领取数量", "领取规则"])
-# %%
-
 provinces = list(map(lambda x: x.text, html_index.xpath(xpath_province)))
 citys_info = ndarray((1, 3))
 for i, pro in enumerate(provinces):
@@ -152,7 +147,6 @@ for CITY_INDEX in range(0, shape(df_citys_info)[0], 10):
     df_quan_info_tidy.to_csv("df_quan_info_tidy.csv", index=False)
     df_quan_info_tidy = pd.read_csv("df_quan_info_tidy.csv")
 
-
     # df_quan_info_tidy = pd.read_csv("消费券信息_日期.csv")
     df_quan_info_tidy["money"] = df_quan_info_tidy["money"].apply(
         lambda x: NaN if str(x).isspace() else x)
@@ -192,7 +186,6 @@ for CITY_INDEX in range(0, shape(df_citys_info)[0], 10):
             "抢")
     # df_quan_info_tidy[col].str.contains("摇号")
 
-
     df_quan_info_tidy["发放方式0领取1摇号2抢券"] = df_quan_info_tidy["是否为抢券"] * \
         2 + df_quan_info_tidy["是否为摇号"]
     df_quan_allinfo = df_quan_info_tidy
@@ -203,11 +196,10 @@ for CITY_INDEX in range(0, shape(df_citys_info)[0], 10):
     df_all_info[isnan(df_all_info["发放方式0领取1摇号2抢券"])]
     # 赋值部分
 
-
     # %%
-    df_all_info.loc[:,"2019年gdp"].fillna(value=0, inplace=True)
+    df_all_info.loc[:, "2019年gdp"].fillna(value=0, inplace=True)
     kmeans = KMeans(n_clusters=5).fit(df_all_info[["2019年gdp"]])
-    
+
     # %%
 
     df_all_info[["城市经济分级_2019年gdp"]] = (kmeans.labels_)
@@ -215,8 +207,8 @@ for CITY_INDEX in range(0, shape(df_citys_info)[0], 10):
         dict(zip(range(5), floor(6 - pd.Series(kmeans.cluster_centers_.squeeze()).rank()))))
 
     df_imp = df_all_info[
-        ["城市", "2019年gdp", "城市经济分级_2019年gdp", "人口", "lon", "lat"] + ["money_digit", "发放方式0领取1摇号2抢券", "领取方式", "发放时间", "发放金额", "领取数量", "领取规则", "url"]].fillna(value="")
-    df_imp = df_imp.rename(columns={"2019年gdp": "gdp19", "城市经济分级_2019年gdp": "gdpStage19", "人口": "peo", "发放方式0领取1摇号2抢券": "giveOutMethod",
+        ["城市", "省份", "2019年gdp", "城市经济分级_2019年gdp", "人口", "lon", "lat"] + ["money_digit", "发放方式0领取1摇号2抢券", "领取方式", "发放时间", "发放金额", "领取数量", "领取规则", "url"]].fillna(value="")
+    df_imp = df_imp.rename(columns={"城市": "city", "省份": "province", "2019年gdp": "gdp19", "城市经济分级_2019年gdp": "gdpStage19", "人口": "peo", "发放方式0领取1摇号2抢券": "giveOutMethod",
                                     "领取方式": "methodDescribe", "发放时间": "giveTimeDescribe", "发放金额": "moneyDescribe", "领取数量": "numDescribe", "领取规则": "ruleDescribe", "url": "url", "money_digit": "moneyDigit"})
     df_imp["giveOutMethod"] = df_imp["giveOutMethod"].map(
         {0: "领取", 1: "摇号", 2: "抢券"})
@@ -230,9 +222,9 @@ for CITY_INDEX in range(0, shape(df_citys_info)[0], 10):
         charset='utf8'
     )
     cursor = conn.cursor()
-    insert_sql = "INSERT INTO `voucher` VALUES( '{}', {}, {}, {}, {}, {}, {}, '{}', '{}', '{}', '{}', '{}', '{}', '{}')"
+    insert_sql = "INSERT INTO `voucher` VALUES( '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}','{}')"
     create_table_sql = open("voucher.sql").read()
-    update_sql = "UPDATE `voucher` SET `gdp19` = {}, `gdpStage19` = {}, `peo` = {}, `lon` = {}, `lat` = {}, `moneyDigit` = {}, `giveOutMethod` = '{}', `methodDescribe` = '{}', `giveTimeDescribe` = '{}', `moneyDescribe` = '{}', `numDescribe` = '{}', `ruleDescribe` = '{}', `url` = '{}' WHERE `city` = '{}'"
+    update_sql = "UPDATE `voucher` SET `gdp19` = {},`province`='{}', `gdpStage19` = '{}', `peo` = '{}', `lon` = '{}', `lat` = '{}', `moneyDigit` = '{}', `giveOutMethod` = '{}', `methodDescribe` = '{}', `giveTimeDescribe` = '{}', `moneyDescribe` = '{}', `numDescribe` = '{}', `ruleDescribe` = '{}', `url` = '{}' WHERE `city` = '{}'"
     cursor.execute(create_table_sql)
 
     def ins(row):

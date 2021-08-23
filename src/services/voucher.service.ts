@@ -14,6 +14,11 @@ export class VoucherService {
   async findInfoByCity(city: string) {
     return await this.$voucherInfo.find({ where: `city LIKE '%${city}'` });
   }
+  async findInfoByProvince(province: string) {
+    return await this.$voucherInfo.find({
+      where: `province LIKE '%${province}'`,
+    });
+  }
   async findInfoByDescribe(des: string) {
     const connection = getConnection();
     const queryRunner = connection.createQueryRunner();

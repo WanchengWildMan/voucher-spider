@@ -25,7 +25,12 @@ export class VoucherController {
     console.log(city);
     return this.voucherService.findInfoByCity(city);
   }
-
+  @Get("/findInfoByProvince/:province")
+  @ApiParam({ name: "pro", description: "pro:省份中文名" })
+  async findInfoByProvince(@Param("pro") city: string) {
+    console.log(city);
+    return this.voucherService.findInfoByProvince(city);
+  }
   @Get("/findInfoByDescribe")
   @ApiParam({ name: "des", description: "des:描述信息模糊关键字" })
   async findInfoByDescribe(@Query("des") des: string) {
