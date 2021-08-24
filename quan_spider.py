@@ -56,7 +56,7 @@ df_gdp = pd.merge(df_gdp_1, df_gdp_2, on='城市', how="outer")
 df_gdp["lon"] = nan
 df_gdp["lat"] = nan
 
-while sum((isnan(df_gdp["lon"])) | (isnan(df_gdp["lon"]) | isnan(df_gdp["lon"])))*0 > 0:
+while sum((isnan(df_gdp["lon"])) | (isnan(df_gdp["lon"]) | isnan(df_gdp["lon"]))) > 0:
     lon = []
     lat = []
 
