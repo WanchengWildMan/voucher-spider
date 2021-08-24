@@ -16,7 +16,7 @@ export class VoucherService {
   }
   async findInfoByProvince(province: string) {
     return await this.$voucherInfo.find({
-      where: `province LIKE '%${province}'`,
+      where: `province LIKE '%${province}%'`,
     });
   }
   async findInfoByDescribe(des: string) {
