@@ -34,7 +34,7 @@ def GDP_people_info(html):
         city = city[0].split("（")[0]
 
         try:
-            datas.append((city,GDP[0],people[0]))
+            datas.append((city,GDP[0],people))
         except:
             print(city, GDP, people)
             pass
