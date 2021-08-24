@@ -173,18 +173,18 @@ for CITY_INDEX in range(0, shape(df_citys_info)[0], 10):
     # df_quan_info_tidy = pd.read_excel("消费券信息_处理金额缺失.xlsx")
     df_quan_info_tidy["是否为摇号"] = False
     for col in df_quan_info_tidy.columns[:5]:
-        df_quan_info_tidy["是否为摇号"] = df_quan_info_tidy["是否为摇号"] | df_quan_info_tidy[col].str.contains("摇号") | \
-            df_quan_info_tidy[col].str.contains(
-                "抽") | df_quan_info_tidy[col].str.contains("随机")
-    # df_quan_info_tidy[col].str.contains("摇号")
+        df_quan_info_tidy["是否为摇号"] = df_quan_info_tidy["是否为摇号"] | df_quan_info_tidy[col].astype('str').str.contains("摇号") | \
+            df_quan_info_tidy[col].astype('str').str.contains(
+                "抽") | df_quan_info_tidy[col].astype('str').str.contains("随机")
+    # df_quan_info_tidy[col].astype('str').str.contains("摇号")
 
     # %%
 
     df_quan_info_tidy["是否为抢券"] = False
     for col in df_quan_info_tidy.columns[:5]:
-        df_quan_info_tidy["是否为抢券"] = df_quan_info_tidy["是否为抢券"] | df_quan_info_tidy[col].str.contains(
+        df_quan_info_tidy["是否为抢券"] = df_quan_info_tidy["是否为抢券"] | df_quan_info_tidy[col].astype('str').str.contains(
             "抢")
-    # df_quan_info_tidy[col].str.contains("摇号")
+    # df_quan_info_tidy[col].astype('str').str.contains("摇号")
 
     df_quan_info_tidy["发放方式0领取1摇号2抢券"] = df_quan_info_tidy["是否为抢券"] * \
         2 + df_quan_info_tidy["是否为摇号"]
