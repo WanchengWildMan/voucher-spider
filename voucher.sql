@@ -14,6 +14,6 @@ CREATE TABLE IF NOT EXISTS voucher (
   numDescribe varchar(255) NOT NULL,
   ruleDescribe varchar(255) NOT NULL,
   url varchar(255) NOT NULL,
-  PRIMARY KEY (id),
+  PRIMARY KEY (city),
   UNIQUE KEY IDX_a4efa4fe4fe6fb5465109c2f00 (city)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;

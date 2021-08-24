@@ -26,7 +26,7 @@ export class VoucherService {
     return await getManager()
       .createQueryBuilder(Voucher, "v")
       .where(
-        `concat(v.methodDescribe,v.giveTimeDescribe,v.moneyDescribe,v.numDescribe,v.ruleDescribe) LIKE '${des}'`
+        `concat(v.methodDescribe,v.giveTimeDescribe,v.moneyDescribe,v.numDescribe,v.ruleDescribe) LIKE '%${des}%'`
       )
       .getMany();
   }
