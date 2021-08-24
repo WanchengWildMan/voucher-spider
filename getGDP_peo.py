@@ -23,8 +23,8 @@ def GDP_people_info(html):
     datas=[]
     for info in infos:
 
-        pat1=r".*?(\d+)万?）"
-        people = re.findall(pat1,info)
+        pat1=r"(\d+)万?）"
+        people = re.findall(pat1,info)[-1]
         # GDP
         pat2=r'(\d+)亿元，'
         GDP=re.findall(pat2,info)

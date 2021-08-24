@@ -56,7 +56,7 @@ df_gdp = pd.merge(df_gdp_1, df_gdp_2, on='城市', how="outer")
 df_gdp["lon"] = nan
 df_gdp["lat"] = nan
 
-while sum((isnan(df_gdp["lon"])) | (isnan(df_gdp["lon"]) | isnan(df_gdp["lon"]))) > 0:
+while sum((isnan(df_gdp["lon"])) | (isnan(df_gdp["lon"]) | isnan(df_gdp["lon"])))*0 > 0:
     lon = []
     lat = []
 
@@ -224,7 +224,7 @@ for CITY_INDEX in range(0, shape(df_citys_info)[0], 10):
     cursor = conn.cursor()
     insert_sql = "INSERT INTO `voucher` VALUES( '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}','{}')"
     create_table_sql = open("voucher.sql").read()
-    update_sql = "UPDATE `voucher` SET `gdp19` = {},`province`='{}', `gdpStage19` = '{}', `peo` = '{}', `lon` = '{}', `lat` = '{}', `moneyDigit` = '{}', `giveOutMethod` = '{}', `methodDescribe` = '{}', `giveTimeDescribe` = '{}', `moneyDescribe` = '{}', `numDescribe` = '{}', `ruleDescribe` = '{}', `url` = '{}' WHERE `city` = '{}'"
+    update_sql = "UPDATE `voucher` SET `province`='{}',`gdp19` = {}, `gdpStage19` = '{}', `peo` = '{}', `lon` = '{}', `lat` = '{}', `moneyDigit` = '{}', `giveOutMethod` = '{}', `methodDescribe` = '{}', `giveTimeDescribe` = '{}', `moneyDescribe` = '{}', `numDescribe` = '{}', `ruleDescribe` = '{}', `url` = '{}' WHERE `city` = '{}'"
     cursor.execute(create_table_sql)
 
     def ins(row):
@@ -238,7 +238,8 @@ for CITY_INDEX in range(0, shape(df_citys_info)[0], 10):
             print("插入失败:", l)
             try:
                 print("尝试更新:", l)
-                cursor.execute(update_sql.format(*l))
+                print(update_sql.format(*(l[1:]), l[0]))
+                cursor.execute(update_sql.format(*(l[1:]),l[0]))
                 conn.commit()
             except:
                 print("插入失败:", l)
