@@ -10,3 +10,6 @@
 1. nest start --watch
 # 调用接口
 http://localhost:30000/apiDocument
+
+# 启动爬虫
+前往上述接口页面调用/flashData或直接运行python脚本
